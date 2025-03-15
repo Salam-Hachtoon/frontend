@@ -1,9 +1,9 @@
 import "../App.css";
-import FormControl from "./FormControl";
-import Button from "./Button";
-import Divider from "./Divider";
+import FormControl from "../components/FormControl";
+import Button from "../components/Button";
+import Divider from "../components/Divider";
 
-const Signup = () => {
+const Login = () => {
   return (
     <div className="grid grid-cols-[57%_43%] min-h-screen">
       <div className="flex items-center justify-center px-[100px] py-[120px]">
@@ -22,22 +22,6 @@ const Signup = () => {
               placeholder="Name@gmail.com"
               required
             />
-            <div className="grid grid-cols-2 gap-4">
-              <FormControl
-                label="First Name"
-                id="first-name"
-                type="text"
-                placeholder="First Name"
-                required
-              />
-              <FormControl
-                label="Last Name"
-                id="last-name"
-                type="text"
-                placeholder="Last Name"
-                required
-              />
-            </div>
             <FormControl
               label="Password"
               id="password"
@@ -49,7 +33,7 @@ const Signup = () => {
               type="submit"
               className="bg-[#1B39E9] text-white hover:bg-[#1A2EB9]"
             >
-              Sign Up Now
+              Log In Now
             </Button>
           </form>
           <Divider />
@@ -60,9 +44,9 @@ const Signup = () => {
             Continue with Google
           </Button>
           <div className="mt-4 text-center">
-            <span className="text-[#B9B9B9]">Already have an account? </span>
-            <a href="#" className="text-[#1B39E9] hover:underline">
-              Log In
+            <span className="text-[#B9B9B9]">No Account Yet? </span>
+            <a href="/Signup" className="text-[#1B39E9] hover:underline">
+              Sign Up
             </a>
           </div>
         </div>
@@ -70,8 +54,8 @@ const Signup = () => {
 
       <div className="relative">
         <img
-          src="/img/signup.png"
-          alt="Signup"
+          src="/img/login.png"
+          alt="Login"
           className="absolute inset-0 w-full h-full object-cover"
         />
       </div>
@@ -79,4 +63,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;
