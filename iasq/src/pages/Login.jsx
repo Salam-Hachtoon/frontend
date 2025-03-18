@@ -134,6 +134,11 @@ const Login = () => {
             <Link to="/signup" className="text-[#1B39E9] hover:underline">
               Sign Up
             </Link>
+             <span className="text-[#B9B9B9]">| </span>
+            <span className="text-[#B9B9B9]"> forget password? </span>
+            <Link to="/reset-password" className="text-[#1B39E9] hover:underline">
+              Reset Password
+            </Link>
           </div>
         </div>
       </div>
