@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css'
 import App from './App.jsx'
 
+<<<<<<< HEAD
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter> 
@@ -12,4 +13,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </BrowserRouter>
   </React.StrictMode>
 );
+=======
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+
+
+>>>>>>> ce67c39 (handle signup and login functions)
 
