@@ -106,15 +106,10 @@ const Signup = () => {
             Continue with Google
           </Button>
           <div className="mt-4 text-center">
-            <span className="text-[#B9B9B9]">Already have an account? </span>
-<<<<<<< HEAD
-            <a href="/Login" className="text-[#1B39E9] hover:underline">
-=======
-            <Link to="/login" className="text-[#1B39E9] hover:underline">
-
->>>>>>> ce67c39 (handle signup and login functions)
-              Log In
-            </Link>
+<span className="text-[#B9B9B9]">Already have an account? </span>
+<Link to="/login" className="text-[#1B39E9] hover:underline">
+  Log In
+</Link>
           </div>
         </div>
       </div>
