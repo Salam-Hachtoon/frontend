@@ -131,7 +131,7 @@ const Login = () => {
           </Button>
           <div className="mt-4 text-center">
             <span className="text-[#B9B9B9]">No Account Yet? </span>
-            <Link to="/" className="text-[#1B39E9] hover:underline">
+            <Link to="/signup" className="text-[#1B39E9] hover:underline">
               Sign Up
             </Link>
           </div>
