@@ -14,14 +14,9 @@
     "axios": "^1.8.3",
     "js-cookie": "^3.0.5",
     "react": "^19.0.0",
-<<<<<<< HEAD
-    "react-dom": "^19.0.0",
-    "react-router-dom": "^6.30.0"
-=======
     "react-cookie": "^8.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.3.0"
->>>>>>> ce67c39 (handle signup and login functions)
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

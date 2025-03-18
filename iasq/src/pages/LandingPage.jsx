@@ -22,7 +22,7 @@ const LandingPage = () => {
         <div className="nav lp-nav">
           <ul>
             <li><a href="#hero">Home</a></li>
-            <li><a href="#Features">Features</a></li>
+            <li><a href="#features">Features</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#team">Team</a></li>
             <li><a href="#pricing">Pricing</a></li>
