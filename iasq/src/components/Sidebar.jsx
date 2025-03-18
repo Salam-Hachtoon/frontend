@@ -20,7 +20,7 @@ const Sidebar = () => {
               src="./img/chatsicon.svg"
               className="inline-block py-[16px] pr-[24px]"
             />
-            Chats
+            Summaries
           </li>
           <li>
             <img

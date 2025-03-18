@@ -1,15 +1,18 @@
-import './App.css'
-import Signup from './pages/Signup.'
-import Login from './pages/Login'
-import Quizzes from './pages/Quizzes'
-import Homepage from './pages/Homepage'
+import { Routes, Route } from 'react-router-dom';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import LandingPage from './pages/LandingPage';
+import Homepage from './pages/Homepage';
 
 function App() {
-
-
   return (
-    <Homepage></Homepage>
-  )
+    <Routes>
+      <Route path="/" element={<LandingPage />} />;
+      <Route path="/Login" element={<Login/>} />;
+      <Route path="/Signup" element={<Signup/>} />;
+      <Route path='/Home' element={<Homepage/>} />;
+    </Routes>
+  );
 }
 
-export default App
+export default App;

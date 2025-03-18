@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+.lp-nav li {
+    @apply inline-block px-[20px] py-[33px] text-[16px] font-semibold;
+}
