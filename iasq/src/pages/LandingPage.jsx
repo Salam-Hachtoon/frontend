@@ -40,7 +40,7 @@ const LandingPage = () => {
       {/* // Header */}
 
       {/* Hero Section */}
-      <div id="hero" className="grid grid-cols-2 gap-[32px] mt-[90px]">
+      <div id="hero" className="grid grid-cols-2 gap-[32px] my-[90px]">
         <div className="hero-text pl-[133px] my-auto">
           <h1 className="text-[48px] font-medium">
             Explore, Learn, and Grow Smarter Everyday
@@ -73,7 +73,7 @@ const LandingPage = () => {
       {/* Features Section */}
       <div
         id="features"
-        className="py-[150px] px-[120px] grid grid-cols-2 gap-[32px]"
+        className="py-[150px] px-[120px] grid grid-cols-2 gap-[32px] bg-[#F1F5F9]"
       >
         <div className="features-text">
           <div className="features-heading">
@@ -145,7 +145,7 @@ const LandingPage = () => {
       {/* // About Section */}
 
       {/* Team Section */}
-      <div id="team" className="px-[180px] py-[142px]">
+      <div id="team" className="px-[180px] py-[142px] bg-[#F1F5F9]">
         <div id="team-heading">
           <h1 className="text-[48px] font-semibold text-center">Our Team</h1>
           <p className="text-center mt-[10px] px-12">
