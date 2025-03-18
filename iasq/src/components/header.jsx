@@ -29,8 +29,8 @@ const Header = () => {
 
           {/* New Chat Button */}
           <div className="h-[33px]">
-            <button className="bg-[#1B39E9] py-[8px] px-[16px] text-white rounded-[4px] ml-4 text-[14px] w-[42%] float-right cursor-pointer">
-              + Start a New Chat
+            <button className="bg-[#1B39E9] py-[8px] px-[16px] text-white rounded-[4px] ml-4 text-[14px] w-[50%] float-right cursor-pointer">
+              + Upload a New File
             </button>
           </div>
 
