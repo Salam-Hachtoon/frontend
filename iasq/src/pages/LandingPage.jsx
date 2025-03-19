@@ -1,8 +1,8 @@
 import "../App.css";
-import FeatureCard from "../components/FeatureCard";
-import Footer from "../components/Footer";
-import PricingSection from "../components/PricingSection";
-import TeamCard from "../components/TeamCard";
+import FeatureCard from "../components/landing-page/FeatureCard";
+import Footer from "../components/landing-page/Footer";
+import PricingSection from "../components/landing-page/PricingSection";
+import TeamCard from "../components/landing-page/TeamCard";
 import "../styles/landingpage.css";
 import { useNavigate } from "react-router-dom";
 
