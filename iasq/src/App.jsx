@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Layout from "./pages/Layout";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import Login from "./pages/authentication/Login";
+import Signup from "./pages/authentication/Signup";
 import LandingPage from "./pages/LandingPage";
 import Homepage from "./pages/Homepage";
 import Quizzes from './pages/Quizzes';
-import ResetPassword from "./pages/ResetPassword";
+import ResetPassword from "./pages/authentication/ResetPassword";
 
 const App = () => {
   return (
