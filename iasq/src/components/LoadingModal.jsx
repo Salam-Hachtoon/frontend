@@ -1,6 +1,13 @@
 import React from "react";
 
-const LoadingModal = ({ isOpen, isLoading, contentType, file, generatedFileUrl, onClose }) => {
+const LoadingModal = ({
+  isOpen,
+  isLoading,
+  contentType,
+  file,
+  generatedFileUrl,
+  onClose,
+}) => {
   if (!isOpen) return null;
 
   return (
@@ -9,7 +16,9 @@ const LoadingModal = ({ isOpen, isLoading, contentType, file, generatedFileUrl, 
         {isLoading ? (
           <div className="text-center">
             <p className="text-gray-800 mb-4">
-              Please wait, your {contentType} is being generated...
+              {contentType ?
+                 `Please wait, your ${contentType} is being generated`
+                : "Please wait while the file is being processed"}
             </p>
             {/* Loading Bar Animation */}
             <div className="w-full bg-gray-200 rounded-full h-2.5">
@@ -19,7 +28,7 @@ const LoadingModal = ({ isOpen, isLoading, contentType, file, generatedFileUrl, 
         ) : (
           <>
             <p className="text-gray-800 mb-4">
-              {file.name} has finished generating.
+              {file.name} has finished processing.
             </p>
             <div className="flex space-x-4">
               <a
