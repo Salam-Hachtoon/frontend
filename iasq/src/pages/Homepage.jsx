@@ -3,37 +3,90 @@ import React, { useState } from "react";
 import Header from "../components/header";
 import LoadingModal from "../components/LoadingModal";
 import {
-  handleFileUpload,
+  handleFileSelection,
   handleFileDrop,
   handleDragOver,
 } from "../utils/fileUploadUtils";
 
 const Homepage = () => {
   const [file, setFile] = useState(null);
-  const [isFileUploaded, setIsFileUploaded] = useState(false);
+  const [isFileSelected, setIsFileSelected] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFileUploaded, setIsFileUploaded] = useState(false); // Track if file is uploaded
   const [generatedFileUrl, setGeneratedFileUrl] = useState(null);
   const [contentType, setContentType] = useState("");
 
-  // const fileInputRef = useRef(null);
-  // // Trigger file input click
-  // const triggerFileInput = () => {
-  //   fileInputRef.current.click();
-  // };
-  // Handle generate actions
-  const handleGenerate = async (action) => {
+  // Handle file upload to AI
+  const handleUpload = async () => {
     setIsModalOpen(true);
     setIsLoading(true);
-    setContentType(action);
 
-    // Simulate API call
-    setTimeout(() => {
-      // will be replace with the actual api call
-      const fakeGeneratedFileUrl = "https://example.com/generated-summary.pdf";
-      setGeneratedFileUrl(fakeGeneratedFileUrl);
+    try {
+      // Simulate file upload to AI
+      const response = await fakeUploadFileToAI(file);
+      console.log("File uploaded successfully:", response);
+
+      // Simulate backend confirmation
+      setTimeout(() => {
+        setIsLoading(false);
+        setIsFileUploaded(true); // File has been processed successfully
+        setIsModalOpen(false); // Close the loading modal
+      }, 3000); // Simulate a 3-second delay for processing
+    } catch (error) {
+      console.error("Error uploading file:", error);
       setIsLoading(false);
-    }, 3000); // fixed 3 sec delay but needs to be updated with the api call time
+      setIsModalOpen(false);
+      alert("Failed to upload file. Please try again.");
+    }
+  };
+
+  // Simulate file upload to AI
+  const fakeUploadFileToAI = async (file) => {
+    console.log("Uploading file:", file.name); // Log the file name
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ status: "success", message: "File processed successfully" });
+      }, 3000); // Simulate a 3-second delay
+    });
+  };
+
+  // Handle generate actions (Quiz, Flashcard Set, Summary)
+  const handleGenerate = async (action) => {
+    setContentType(action);
+    setIsModalOpen(true); // Show loading modal
+    setIsLoading(true);
+
+    try {
+      // Simulate API call for generating content
+      const response = await fakeGenerateContent(action, file);
+      console.log("Generated content:", response);
+
+      // Simulate receiving the summarized file URL from the backend
+      setTimeout(() => {
+        const fakeGeneratedFileUrl = "https://example.com/generated-summary.pdf";
+        setGeneratedFileUrl(fakeGeneratedFileUrl);
+        setIsLoading(false);
+
+        // Open the generated file in a new browser window or trigger download
+        //window.open(fakeGeneratedFileUrl, "_blank"); // Open in new tab
+      }, 2000); // Simulate a 2-second delay
+    } catch (error) {
+      console.error("Error generating content:", error);
+      setIsLoading(false);
+      setIsModalOpen(false);
+      alert("Failed to generate content. Please try again.");
+    }
+  };
+
+  // Simulate generating content (Quiz, Flashcard Set, Summary)
+  const fakeGenerateContent = async (action, file) => {
+    console.log(`Generating ${action} for file:`, file.name);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ status: "success", message: `${action} generated successfully` });
+      }, 2000); // Simulate a 2-second delay
+    });
   };
 
   // Close modal
@@ -59,10 +112,10 @@ const Homepage = () => {
         {/* File Upload Area */}
         <div
           className="w-full max-w-md p-6 bg-white border-2 border-dashed border-gray-300 rounded-lg text-center cursor-pointer"
-          onDrop={(e) => handleFileDrop(e, setFile, setIsFileUploaded)}
+          onDrop={(e) => handleFileDrop(e, setFile, setIsFileSelected)}
           onDragOver={handleDragOver}
         >
-          {!isFileUploaded ? (
+          {!isFileSelected ? (
             <>
               <img
                 src="/img/upload.svg"
@@ -77,22 +130,32 @@ const Homepage = () => {
                 id="file-upload"
                 className="hidden"
                 onChange={(e) =>
-                  handleFileUpload(e, setFile, setIsFileUploaded)
+                  handleFileSelection(e, setFile, setIsFileSelected)
                 }
               />
               <label
                 htmlFor="file-upload"
                 className="text-blue-500 font-semibold cursor-pointer hover:text-blue-600"
               >
-                Click to upload
+                Click to Select a File
               </label>
             </>
           ) : (
-            <p className="text-gray-600">File uploaded: {file.name}</p>
+            <p className="text-gray-600">Selected File: {file.name}</p>
           )}
         </div>
 
-        {/* Generate Buttons */}
+        {/* Upload Button (appears after file selection) */}
+        {isFileSelected && !isFileUploaded && (
+          <button
+            className="mt-8 px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 cursor-pointer"
+            onClick={handleUpload}
+          >
+            Upload {file.name}
+          </button>
+        )}
+
+        {/* Generate Buttons (appear after file is uploaded and processed) */}
         {isFileUploaded && (
           <div className="mt-8 space-x-4">
             <button
