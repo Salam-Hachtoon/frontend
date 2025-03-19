@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
+import Layout from "./pages/Layout";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import LandingPage from "./pages/LandingPage";
@@ -22,12 +23,17 @@ const App = () => {
 
         {/* Rest Password page */}
          <Route path="/reset-password" element={<ResetPassword />} />
+         
+         <Route path="/home" element={<Layout />}>
+          <Route index element={<Homepage />} />
+          <Route path="quizzes" element={<Quizzes />} />
+           {/*<Route path="Summaries" element={<Summaries />} />*/ } 
+           {/*<Route path="flashcards" element={<Flashcards />} />*/ } 
+           {/*<Route path="Summaries" element={<Summaries />} />*/ }  
+           {/*<Route path="Settings" element={<Settings />} />*/ }  
+        </Route>
 
-        {/* Homepage */}
-        <Route path="/home" element={<Homepage />} />
 
-        {/* Quizzes page */}
-        <Route path="/quizzes" element={<Quizzes />} />
       </Routes>
 </BrowserRouter>
   );
