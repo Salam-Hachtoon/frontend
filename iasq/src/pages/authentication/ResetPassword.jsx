@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../App.css";
-import FormControl from "../../components/FormControl";
+import FormControl from "../../components/auth-components/FormControl";
 import Button from "../../components/Button";
-import Divider from "../../components/Divider";
+import Divider from "../../components/auth-components/Divider";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
