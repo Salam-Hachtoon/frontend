@@ -2,13 +2,12 @@ import "../App.css";
 import Card from "../components/card";
 import Header from "../components/header";
 import PCHeader from "../components/PageContentHeader";
-import Sidebar from "../components/Sidebar";
+
 
 const Quizzes = () => {
   return (
-    <div className="grid grid-cols-[16%_84%] h-screen">
-      <Sidebar></Sidebar>
-      <div className="main-content">
+
+      <div>
         <Header></Header>
         <div className="page-content px-[64px] py-[48px]">
           <PCHeader pageHeader="Your Quizzes"></PCHeader>
@@ -44,7 +43,7 @@ const Quizzes = () => {
           </div>
         </div>
       </div>
-    </div>
+
   );
 };
 

@@ -1,8 +1,5 @@
 import "../App.css";
 import Header from "../components/header";
-import PCHeader from "../components/PageContentHeader";
-import PreviewCard from "../components/PreviewCard";
-import Sidebar from "../components/Sidebar";
 import { useState } from "react";
 
 const Homepage = () => {
@@ -40,10 +37,8 @@ const Homepage = () => {
   };
 
   return (
-    <div className="grid grid-cols-[16%_84%] h-screen">
-      {/* sidebar */}
-      <Sidebar></Sidebar>
-      <div className="main-content">
+
+      <div>
         {/* header */}
         <Header></Header>
 
@@ -132,7 +127,7 @@ const Homepage = () => {
           )}
         </div>
       </div>
-    </div>
+
   );
 };
 
