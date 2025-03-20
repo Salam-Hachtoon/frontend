@@ -29,7 +29,7 @@ const Sidebar = () => {
               src="/img/quizzesicon.svg"
               className="inline-block py-[16px] pr-[24px]"
             />
-            <Link to="quizzes">Quizzes</Link>
+            <Link to="/home/quizzes">Quizzes</Link>
           </li>
           <li>
             {/* <img
