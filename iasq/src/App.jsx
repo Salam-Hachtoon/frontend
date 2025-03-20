@@ -9,6 +9,7 @@ import Quizzes from "./pages/features/Quizzes";
 import ResetPassword from "./pages/authentication/ResetPassword";
 import QuizPage from "./pages/features/QuizPage";
 import Summaries from "./pages/features/Summaries"
+import FlashcardSets from "./pages/features/FlashcardSets";
 
 const App = () => {
   return (
@@ -31,7 +32,7 @@ const App = () => {
           <Route path="quizzes" element={<Quizzes />} />
           <Route path="quizpage" element={<QuizPage />} />
           <Route path="summaries" element={<Summaries />} />
-          {/*<Route path="flashcards" element={<Flashcards />} />*/}
+          <Route path="/home/flashcards" element={<FlashcardSets />} />
           {/*<Route path="Summaries" element={<Summaries />} />*/}
           {/*<Route path="Settings" element={<Settings />} />*/}
         </Route>
