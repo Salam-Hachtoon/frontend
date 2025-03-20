@@ -4,6 +4,7 @@ import axios from "axios";
 import {  ToastContainer, toast  } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "../components/header";
+import { useNavigate } from "react-router-dom";
 import LoadingModal from "../components/LoadingModal";
 import {
   handleFileSelection,
@@ -25,8 +26,10 @@ const Homepage = () => {
   const [contentType, setContentType] = useState("");
   const [processingId, setProcessingId] = useState(null);
 
+  const navigate = useNavigate(); 
   const token = localStorage.getItem("jwt_token");
   const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+  const API_BASE_URL = "http://localhost:8000/api"
 
   const handleUpload = async () => {
     if (!file) return;
@@ -44,10 +47,10 @@ const Homepage = () => {
     formData.append("size", file ? file.size : 0);
     
     try {
-      const response = await axios.post("https://your-backend.com/upload", formData, {
+      const response = await axios.post(`${API_BASE_URL}/v1/upload_attachments`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      
+
       setProcessingId(response.data.processingId);
       pollProcessingStatus(response.data.processingId);
       toast.success("File uploaded successfully!");
@@ -62,7 +65,7 @@ const Homepage = () => {
   const pollProcessingStatus = async (processingId) => {
     const interval = setInterval(async () => {
       try {
-        const response = await axios.get(`https://your-backend.com/status/${processingId}`, {
+        const response = await axios.get(`${API_BASE_URL}/v1/upload_attachments/${processingId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -85,18 +88,26 @@ const Homepage = () => {
     setIsLoading(true);
     
     try {
-      const response = await axios.post("https://your-backend.com/generate", {
+      const response = await axios.post(`${API_BASE_URL}/v1/upload_attachments`, {
         processingId,
         action,
       }, {
         headers: { Authorization: `Bearer ${token}` },
       });
       
-      setTimeout(() => {
-        setGeneratedFileUrl(response.data.generatedFileUrl);
-        setIsLoading(false);
-        toast.success(`${action} generated successfully!`);
-      }, 2000);
+    setTimeout(() => {
+      setGeneratedFileUrl(response.data.generatedFileUrl);
+      setIsLoading(false);
+      toast.success(`${action} generated successfully!`);
+
+      if (action === "Summary") {
+        navigate("/home/summaries");
+      } else if (action === "Quiz") {
+        navigate("/home/quizpage");
+      } else if (action === "Flashcard Set") {
+        navigate("/flashcards");
+      }
+    }, 2000);
     } catch (error) {
       console.error("Error generating content:", error);
       setIsLoading(false);
@@ -161,6 +172,11 @@ const Homepage = () => {
             <button className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 cursor-pointer" onClick={() => handleGenerate("Quiz")}>Generate Quiz</button>
             <button className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 cursor-pointer" onClick={() => handleGenerate("Flashcard Set")}>Generate Flashcard Set</button>
             <button className="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 cursor-pointer" onClick={() => handleGenerate("Summary")}>Generate Summary</button>
+          </div>
+        )}
+           {generatedFileUrl && (
+          <div className="mt-4">
+            <a href={generatedFileUrl} download className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 cursor-pointer">Download PDF</a>
           </div>
         )}
       </div>

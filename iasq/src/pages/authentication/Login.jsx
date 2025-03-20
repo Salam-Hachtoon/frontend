@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios"; // 
 import "../../App.css";
 import FormControl from "../../components/auth-components/FormControl";
 import Button from "../../components/Button";
 import Divider from "../../components/auth-components/Divider";
 import { Link } from "react-router-dom";
 
+const API_BASE_URL = "http://localhost:8000/api/v1"; // Replace with your API URL
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
-  // Download Google Identity Services Library
+  console.log("Sending Data:", { email , password });
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://accounts.google.com/gsi/client";
@@ -22,34 +23,30 @@ const Login = () => {
     document.body.appendChild(script);
   }, []);
 
-  // Traditional login function
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://your-api.com/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-        credentials: "include",
-      });
+      const response = await axios.post(
+        `${API_BASE_URL}/login`,
+        { email, password },
+        { withCredentials: true } 
+      );
 
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Login failed!");
 
-    // Store Access Token in localStorage
-      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("accessToken", response.data.accessToken);
 
-      // Redirect to the home page
-      navigate("/Quizzes");
+
+      navigate("/home");
     } catch (err) {
-      setError(err.message);
+      setError(err.response?.data?.message || "Login failed!");
     }
   };
 
-  // Initialize Google Login
+
   const initializeGoogleLogin = () => {
     window.google.accounts.id.initialize({
-      client_id: "YOUR_GOOGLE_CLIENT_ID", // Your Google Client ID
+      client_id: "YOUR_GOOGLE_CLIENT_ID",
       callback: handleGoogleLogin,
     });
 
@@ -59,29 +56,22 @@ const Login = () => {
     );
   };
 
-  // Google login function
+
   const handleGoogleLogin = async (response) => {
     try {
-      const googleToken = response.credential; // Google ID Token
-      const res = await fetch("https://your-api.com/api/google-login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: googleToken }),
+      const googleToken = response.credential;
+      const res = await axios.post(`${API_BASE_URL}/accounts/google/login/callback`, {
+        token: googleToken,
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Google login failed!");
+      localStorage.setItem("accessToken", res.data.accessToken);
 
-      // Store Access Token in localStorage
-      localStorage.setItem("accessToken", data.accessToken);
 
-      // Redirect to the home page
-      navigate("/Quizzes");
+      navigate("/home");
     } catch (err) {
-      setError(err.message);
+      setError(err.response?.data?.message || "Google login failed!");
     }
   };
-
 
   return (
     <div className="grid grid-cols-[57%_43%] min-h-screen">
@@ -112,18 +102,15 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-
-              <Button
-                type="submit"
-                className="bg-[#1B39E9] text-white hover:bg-[#1A2EB9]"
-              >
+            <Button type="submit" className="bg-[#1B39E9] text-white hover:bg-[#1A2EB9]">
               Log In Now
-              </Button>
+            </Button>
 
             {error && <p className="text-red-500">{error}</p>}
           </form>
           <Divider />
-          <Button onClick={handleGoogleLogin}
+          <Button
+            onClick={handleGoogleLogin}
             className="text-[#3B4043] border-[0.5px] border-solid border-[#D4D4D4] hover:bg-gray-100"
             icon="/img/flat-color-icons_google.svg"
           >
@@ -134,7 +121,7 @@ const Login = () => {
             <Link to="/signup" className="text-[#1B39E9] hover:underline">
               Sign Up
             </Link>
-             <span className="text-[#B9B9B9]">| </span>
+            <span className="text-[#B9B9B9]">| </span>
             <span className="text-[#B9B9B9]"> forget password? </span>
             <Link to="/reset-password" className="text-[#1B39E9] hover:underline">
               Reset Password
@@ -142,7 +129,6 @@ const Login = () => {
           </div>
         </div>
       </div>
-
       <div className="relative">
         <img
           src="/img/login.png"
