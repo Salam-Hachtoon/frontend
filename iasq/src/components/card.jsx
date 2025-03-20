@@ -12,13 +12,13 @@ const Card = ({
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(navroute); // Navigate to the single page, will be changed to the ID of the feature we want for routing
+    navigate({navroute}); // Navigate to the single page, will be changed to the ID of the feature we want for routing
   };
   return (
     <div  onClick={handleClick} className="card pt-[16px] px-[16px] pb-[24px] border-[1px] border-[#64748B] rounded-[5px] shadow-[0_6px_12px_#0000001C] cursor-pointer">
       <div className="card-header grid grid-cols-2 text-[14px] text-[#4B5768]">
         <span>Topic: {card_topic}</span>
-        <span className="text-right">Level: {card_level}</span>
+        <span className="text-right">{card_level ? card_level : ""}</span>
       </div>
       <div className="card-title mb-[12px] text-[20px] font-bold">
         <h3>{card_title}</h3>
