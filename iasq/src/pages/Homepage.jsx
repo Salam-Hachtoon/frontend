@@ -120,7 +120,6 @@ const Homepage = () => {
   return (
     <div>
             <ToastContainer />
-      <Header />
       <div className="flex flex-col items-center justify-center min-h-screen">
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold text-gray-800">IASQ</h1>
