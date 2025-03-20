@@ -12,21 +12,21 @@ const Sidebar = () => {
         <ul className="text-white text-[14px]">
           <li>
             <img
-              src="./img/homeicon.svg"
+              src="/img/homeicon.svg"
               className="inline-block py-[16px] pr-[24px]"
             />
             <Link to="/Home">Home</Link>
           </li>
           <li>
             <img
-              src="./img/chatsicon.svg"
+              src="/img/chatsicon.svg"
               className="inline-block py-[16px] pr-[24px]"
             />
             <Link to="Summaries">Summaries</Link>
           </li>
           <li>
             <img
-              src="./img/quizzesicon.svg"
+              src="/img/quizzesicon.svg"
               className="inline-block py-[16px] pr-[24px]"
             />
             <Link to="quizzes">Quizzes</Link>
@@ -51,14 +51,14 @@ const Sidebar = () => {
           <hr className="my-[15px]" />
           <li>
             <img
-              src="./img/settingsicon.svg"
+              src="/img/settingsicon.svg"
               className="inline-block py-[16px] pr-[24px]"
             />
            <Link to="Settings">Settings</Link>
           </li>
           <li>
             <img
-              src="./img/logouticon.svg"
+              src="/img/logouticon.svg"
               className="inline-block py-[16px] pr-[24px]"
             />
             <Link to="Logout">Logout</Link> 

@@ -5,8 +5,9 @@ import Login from "./pages/authentication/Login";
 import Signup from "./pages/authentication/Signup";
 import LandingPage from "./pages/LandingPage";
 import Homepage from "./pages/Homepage";
-import Quizzes from './pages/Quizzes';
+import Quizzes from './pages/features/Quizzes';
 import ResetPassword from "./pages/authentication/ResetPassword";
+import QuizPage from "./pages/features/QuizPage";
 
 const App = () => {
   return (
@@ -27,6 +28,8 @@ const App = () => {
          <Route path="/home" element={<Layout />}>
           <Route index element={<Homepage />} />
           <Route path="quizzes" element={<Quizzes />} />
+          <Route path="quizpage" element={<QuizPage />} /> 
+      
            {/*<Route path="Summaries" element={<Summaries />} />*/ } 
            {/*<Route path="flashcards" element={<Flashcards />} />*/ } 
            {/*<Route path="Summaries" element={<Summaries />} />*/ }  
