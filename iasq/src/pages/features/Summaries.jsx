@@ -14,7 +14,7 @@ const Summaries = () => {
   useEffect(() => {
     const fetchSummaries = async () => {
       try {
-        const token = localStorage.getItem("jwtToken"); 
+        const token = localStorage.getItem("accessToken"); 
         if (!token) {
           throw new Error("User not authenticated");
         }

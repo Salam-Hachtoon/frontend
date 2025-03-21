@@ -27,9 +27,9 @@ const Homepage = () => {
   const [processingId, setProcessingId] = useState(null);
 
   const navigate = useNavigate(); 
-  const token = localStorage.getItem("jwt_token");
+  const token = localStorage.getItem("accessToken");
   const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
-  const API_BASE_URL = "http://localhost:8000/api"
+  const API_BASE_URL = "http://localhost:8000/api/v1"
 
   const handleUpload = async () => {
     if (!file) return;
@@ -47,7 +47,7 @@ const Homepage = () => {
     formData.append("size", file ? file.size : 0);
     
     try {
-      const response = await axios.post(`${API_BASE_URL}/v1/upload_attachments`, formData, {
+      const response = await axios.post(`${API_BASE_URL}/upload_attachments/`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -65,7 +65,7 @@ const Homepage = () => {
   const pollProcessingStatus = async (processingId) => {
     const interval = setInterval(async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/v1/upload_attachments/${processingId}`, {
+        const response = await axios.get(`${API_BASE_URL}/upload_attachments/${processingId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -88,7 +88,7 @@ const Homepage = () => {
     setIsLoading(true);
     
     try {
-      const response = await axios.post(`${API_BASE_URL}/v1/upload_attachments`, {
+      const response = await axios.post(`${API_BASE_URL}//upload_attachments/`, {
         processingId,
         action,
       }, {

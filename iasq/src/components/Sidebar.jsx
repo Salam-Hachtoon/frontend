@@ -4,7 +4,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("accessToken");
 
     if (!token) {
       alert("You are already logged out!");

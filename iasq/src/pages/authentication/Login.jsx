@@ -35,10 +35,11 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${API_BASE_URL}/login/`,
+        `${API_BASE_URL}/signin/`,
         { email, password },
         { withCredentials: true }
       );
+      console.log("Signup Response:", response.data);
 
       const accessToken = response.data.access_token || response.data.accessToken;
       if (!accessToken) throw new Error("No access token");

@@ -22,7 +22,7 @@ const FlashcardSets = () => {
     setError(null);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
 
       if (!token) {
         throw new Error("User not authenticated.");
@@ -46,7 +46,7 @@ const FlashcardSets = () => {
     if (!window.confirm("Are you sure you want to delete this flashcard set?")) return;
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
       await axios.delete(`https://your-api.com/flashcard-sets/${setId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -63,7 +63,7 @@ const FlashcardSets = () => {
     if (!window.confirm("Are you sure you want to delete this flashcard?")) return;
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
       await axios.delete(`https://your-api.com/flashcard-sets/${setId}/cards/${cardId}`, {
         headers: {
           Authorization: `Bearer ${token}`,

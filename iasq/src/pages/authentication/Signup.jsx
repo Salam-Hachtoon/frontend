@@ -67,10 +67,11 @@ const Signup = () => {
       const access = access_token || accessToken;
       const refresh = refresh_token || refreshToken;
 
+
       if (access) {
         localStorage.setItem("accessToken", access);
         localStorage.setItem("refreshToken", refresh || "");
-        navigate("/home");
+        navigate("/login");
       } else {
         navigate("/login", { 
           state: { 
