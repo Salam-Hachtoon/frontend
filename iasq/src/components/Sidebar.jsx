@@ -59,7 +59,7 @@ const Sidebar = () => {
           </li>
           <li>
 
-            <button onClick={handleLogout} className="text-white bg-transparent border-none cursor-pointer">            <img src="/img/logouticon.svg" className="inline-block py-[16px] pr-[24px]" />
+            <button onClick={handleLogout} className="text-white bg-transparent border-none cursor-pointer"><img src="/img/logouticon.svg" className="inline-block py-[16px] pr-[24px]" />
               Logout
             </button>
           </li>

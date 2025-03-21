@@ -15,11 +15,11 @@ const ResetPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [step, setStep] = useState(1); // 1: Enter email, 2: Enter OTP, 3: Set new password
-
+  const API_BASE_URL = "http://localhost:8000/api/v1"; 
  // Send OTP to email
   const sendOTP = async () => {
     try {
-      const response = await axios.post("https://api.example.com/send-otp", { email });
+      const response = await axios.post(`${API_BASE_URL}/user/change-password`, { email });
       console.log(response.data.message);
       setStep(2);// Go to the OTP entry step
     } catch (error) {
@@ -33,7 +33,7 @@ const ResetPassword = () => {
 
     if (step === 2) {
       try {
-        const response = await axios.post("https://api.example.com/verify-otp", { email, otp });
+        const response = await axios.post(`${API_BASE_URL}/user/verify-otp`, { email, otp });
         console.log(response.data.message);
         setStep(3); // Go to the new password entry step
       } catch (error) {
@@ -47,7 +47,7 @@ const ResetPassword = () => {
         return;
       }
       try {
-        const response = await axios.post("https://api.example.com/reset-password", {
+        const response = await axios.post(`${API_BASE_URL}/user/verify-otp`, {
           email,
           newPassword,
         });
