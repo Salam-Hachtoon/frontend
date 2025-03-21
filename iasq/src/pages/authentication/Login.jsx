@@ -1,75 +1,82 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // 
+import axios from "axios";
 import "../../App.css";
 import FormControl from "../../components/auth-components/FormControl";
 import Button from "../../components/Button";
 import Divider from "../../components/auth-components/Divider";
 import { Link } from "react-router-dom";
 
-const API_BASE_URL = "http://localhost:8000/api/v1"; // Replace with your API URL
+const API_BASE_URL = "http://localhost:8000/api/v1";
+
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
-  console.log("Sending Data:", { email , password });
   useEffect(() => {
+    if (localStorage.getItem("accessToken")) {
+      navigate("/home");
+    }
+
     const script = document.createElement("script");
     script.src = "https://accounts.google.com/gsi/client";
     script.async = true;
     script.onload = initializeGoogleLogin;
     document.body.appendChild(script);
-  }, []);
 
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, [navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${API_BASE_URL}/login`,
+        `${API_BASE_URL}/login/`,
         { email, password },
-        { withCredentials: true } 
+        { withCredentials: true }
       );
 
+      const accessToken = response.data.access_token || response.data.accessToken;
+      if (!accessToken) throw new Error("No access token");
 
-      localStorage.setItem("accessToken", response.data.accessToken);
-
-
+      localStorage.setItem("accessToken", accessToken);
+      setEmail("");
+      setPassword("");
       navigate("/home");
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed!");
+      setPassword("");
+      setError(err.response?.data?.error || "Login failed!");
     }
   };
 
-
   const initializeGoogleLogin = () => {
-    window.google.accounts.id.initialize({
-      client_id: "YOUR_GOOGLE_CLIENT_ID",
-      callback: handleGoogleLogin,
-    });
-
-    window.google.accounts.id.renderButton(
-      document.getElementById("google-login-btn"),
-      { theme: "outline", size: "large" }
-    );
-  };
-
-
-  const handleGoogleLogin = async (response) => {
-    try {
-      const googleToken = response.credential;
-      const res = await axios.post(`${API_BASE_URL}/accounts/google/login/callback`, {
-        token: googleToken,
+    if (window.google) {
+      window.google.accounts.id.initialize({
+        client_id: "YOUR_GOOGLE_CLIENT_ID",
+        callback: handleGoogleLogin,
       });
 
-      localStorage.setItem("accessToken", res.data.accessToken);
+      window.google.accounts.id.renderButton(
+        document.getElementById("google-login-btn"),
+        { theme: "outline", size: "large", width: "300" }
+      );
+    }
+  };
 
+  const handleGoogleLogin = async (googleResponse) => {
+    try {
+      const res = await axios.post(`${API_BASE_URL}/auth/google/callback`, {
+        credential: googleResponse.credential,
+      });
 
+      localStorage.setItem("accessToken", res.data.access_token);
       navigate("/home");
     } catch (err) {
-      setError(err.response?.data?.message || "Google login failed!");
+      setError(err.response?.data?.error || "Google login failed");
     }
   };
 
@@ -105,26 +112,18 @@ const Login = () => {
             <Button type="submit" className="bg-[#1B39E9] text-white hover:bg-[#1A2EB9]">
               Log In Now
             </Button>
-
-            {error && <p className="text-red-500">{error}</p>}
+            {error && <p className="text-red-500 mt-2">{error}</p>}
           </form>
           <Divider />
-          <Button
-            onClick={handleGoogleLogin}
-            className="text-[#3B4043] border-[0.5px] border-solid border-[#D4D4D4] hover:bg-gray-100"
-            icon="/img/flat-color-icons_google.svg"
-          >
-            Continue with Google
-          </Button>
+          <div id="google-login-btn" className="w-full flex justify-center"></div>
           <div className="mt-4 text-center">
             <span className="text-[#B9B9B9]">No Account Yet? </span>
             <Link to="/signup" className="text-[#1B39E9] hover:underline">
               Sign Up
             </Link>
             <span className="text-[#B9B9B9]">| </span>
-            <span className="text-[#B9B9B9]"> forget password? </span>
             <Link to="/reset-password" className="text-[#1B39E9] hover:underline">
-              Reset Password
+              Forgot Password?
             </Link>
           </div>
         </div>

@@ -1,4 +1,4 @@
-const FormControl = ({ label, id, type, placeholder, required }) => {
+const FormControl = ({ label, id, type, placeholder, required ,  value,   onChange   }) => {
   return (
     <div className="form-control">
       <label htmlFor={id} className="block font-[16px] text-[#333333] mb-[10px]">
@@ -10,6 +10,8 @@ const FormControl = ({ label, id, type, placeholder, required }) => {
         type={type}
         placeholder={placeholder}
         required={required}
+        value={value}
+        onChange={onChange}
       />
     </div>
   );
