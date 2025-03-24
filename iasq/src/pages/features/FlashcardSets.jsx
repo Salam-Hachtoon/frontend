@@ -1,157 +1,89 @@
 import "../../App.css";
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../../components/header";
-import FlashcardPopup from "../../components/FlashcardPopup";
+import Loader from "../../components/Loader";
+import EmptyState from "../../components/EmptyState";
+import { API_BASE_URL } from "../../../config";
 
 const FlashcardSets = () => {
-  const [flashcardSets, setFlashcardSets] = useState([]);
-  const [selectedSet, setSelectedSet] = useState(null);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [flashcards, setFlashcards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchFlashcardSets();
+    fetchFlashcards();
   }, []);
 
-  const fetchFlashcardSets = async () => {
-    setLoading(true);
-    setError(null);
-
+  const fetchFlashcards = async () => {
     try {
+      setLoading(true);
+      setError(null);
       const token = localStorage.getItem("accessToken");
-
-      if (!token) {
-        throw new Error("User not authenticated.");
-      }
-
-      const response = await axios.get("https://your-api.com/flashcard-sets", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      if (!token) throw new Error("Authentication required");
+      
+      const { data } = await axios.get(`${API_BASE_URL}/user/flashcards/`, {
+        headers: { Authorization: `Bearer ${token}` },
       });
 
-      setFlashcardSets(response.data);
-    } catch (err) {
-      setError(err.message || "Failed to fetch data.");
+      setFlashcards(data.data);
+    } catch (error) {
+      console.error("Failed to fetch flashcards:", error);
+      setError("Failed to fetch flashcards");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDeleteSet = async (setId) => {
-    if (!window.confirm("Are you sure you want to delete this flashcard set?")) return;
-
-    try {
-      const token = localStorage.getItem("accessToken");
-      await axios.delete(`https://your-api.com/flashcard-sets/${setId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setFlashcardSets(flashcardSets.filter(set => set.id !== setId));
-    } catch (err) {
-      setError(err.message || "Failed to delete flashcard set.");
-    }
-  };
-
-  const handleDeleteCard = async (setId, cardId) => {
-    if (!window.confirm("Are you sure you want to delete this flashcard?")) return;
-
-    try {
-      const token = localStorage.getItem("accessToken");
-      await axios.delete(`https://your-api.com/flashcard-sets/${setId}/cards/${cardId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setFlashcardSets(flashcardSets.map(set => 
-        set.id === setId 
-          ? { ...set, cards: set.cards.filter(card => card.id !== cardId), cardCount: set.cardCount - 1 }
-          : set
-      ));
-    } catch (err) {
-      setError(err.message || "Failed to delete flashcard.");
-    }
-  };
-
-  const handleSetClick = (set) => {
-    setSelectedSet(set);
-    setIsPopupOpen(true);
-  };
-
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50">
       <Header />
-      <div className="page-content px-[64px] py-[48px]">
-        <h1 className="text-[24px] font-semibold underline mb-[36px]">
-          Flashcard Sets
-        </h1>
-
-        {loading && <p className="text-center text-gray-600">Loading flashcards...</p>}
-        {error && <p className="text-red-500 text-center">{error}</p>}
-
-        {!loading && !error && flashcardSets.length === 0 && (
-          <div className="text-center mt-10">
-            <p className="text-gray-600 text-lg mb-4">
-              You haven’t created any flashcard sets yet.
-            </p>
-            <button
-              onClick={() => navigate("/home")} 
-              className="px-6 py-3 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition"
-            >
-              Create Flashcard Set
-            </button>
-          </div>
-        )}
-
-        {!loading && !error && flashcardSets.length > 0 && (
-          <div className="grid grid-cols-3 gap-[24px]">
-            {flashcardSets.map((set) => (
-              <div
-                key={set.id}
-                className="bg-white p-6 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow relative"
-              >
-                <h2 className="text-xl font-semibold">{set.name}</h2>
-                <span>Category: {set.category || "Unknown"}</span>
-                <p className="text-gray-600 mt-2">{set.cardCount} cards</p>
-                <p className="text-gray-500 text-sm mt-2">
-                  Created on: {new Date(set.createdAt).toLocaleDateString()}
-                </p>
-
-                <button
-                  onClick={() => handleSetClick(set)}
-                  className="mt-3 px-4 py-2 bg-green-500 text-white rounded-lg shadow hover:bg-green-600 transition"
-                >
-                  View Cards
-                </button>
-
-                <button
-                  onClick={() => handleDeleteSet(set.id)}
-                  className="absolute top-3 right-3 px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
-                >
-                  X
-                </button>
-              </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-6">Your Flashcards</h1>
+        {loading ? (
+          <Loader message="Loading your flashcards..." />
+        ) : error ? (
+          <div className="alert-error">{error}</div>
+        ) : flashcards.length === 0 ? (
+          <EmptyState
+            title="No Flashcards Found"
+            message="Get started by creating your first set of flashcards!"
+            actionText="Create New Set"
+            onAction={() => navigate("/home")}
+          />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {flashcards.map((card) => (
+              <Flashcard key={card.id} term={card.term} definition={card.definition} />
             ))}
           </div>
-        )}
-
-        {isPopupOpen && selectedSet && (
-          <FlashcardPopup
-            set={selectedSet}
-            onClose={() => setIsPopupOpen(false)}
-            onDeleteCard={handleDeleteCard}
-          />
         )}
       </div>
     </div>
   );
 };
 
+const Flashcard = ({ term, definition }) => {
+  const [flipped, setFlipped] = useState(false);
+
+  return (
+    <div
+      className="perspective-1000 cursor-pointer"
+      onClick={() => setFlipped(!flipped)}
+    >
+      <div className={`relative w-full h-40 transform transition-transform duration-500 preserve-3d ${flipped ? "rotate-y-180" : ""}`}>
+        {/* Front Side */}
+        <div className="absolute w-full h-full backface-hidden flex items-center justify-center bg-gradient-to-r from-blue-900  to-purple-500 text-white text-xl font-bold p-4 rounded-lg shadow-md">
+          {term}
+        </div>
+        {/* Back Side */}
+        <div className="absolute w-full h-full backface-hidden rotate-y-180 flex items-center justify-center bg-gradient-to-r from-green-900 to-teal-500 text-white text-lg p-4 rounded-lg shadow-md">
+          {definition}
+        </div>
+      </div>
+    </div>
+  );
+};
 export default FlashcardSets;

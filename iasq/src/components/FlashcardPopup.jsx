@@ -2,6 +2,8 @@ import "../App.css";
 import React, { useState } from "react";
 import axios from "axios";
 
+import { API_BASE_URL } from "../../config";
+
 const FlashcardPopup = ({ set, onClose, onCardDelete }) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
@@ -43,7 +45,7 @@ const FlashcardPopup = ({ set, onClose, onCardDelete }) => {
   const handleDeleteCard = async () => {
     const cardId = set.cards[currentCardIndex].id;
     try {
-      await axios.delete(`https://your-api.com/flashcards/${cardId}`);
+      await axios.delete(`${API_BASE_URL}/flashcards/${cardId}`);
       onCardDelete(cardId);
       if (currentCardIndex > 0) {
         setCurrentCardIndex(currentCardIndex - 1);
